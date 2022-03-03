@@ -1,13 +1,27 @@
 const cors = require("cors");
+const { config } = require("dotenv");
 const express = require("express");
 const fs = require("fs");
 
+const { MongoClient, ServerApiVersion } = require("mongodb");
+
+config(); // Load .env file to process.env object.
+const PORT = process.env.PORT || 8000;
+const CONNECTION_STRING =
+  process.env.CONNECTION_STRING ||
+  console.error("Connection string not provided!");
+
+// Express startup
 const app = express();
-
-const port = 8000;
-
 app.use(express.json());
 app.use(cors());
+
+// Connect to DB
+const client = new MongoClient(CONNECTION_STRING, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+});
 
 const getData = () => {
   const data = fs.readFileSync("data.json");
@@ -116,6 +130,6 @@ app.delete("/member", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}!`);
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}!`);
 });
