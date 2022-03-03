@@ -1,4 +1,4 @@
-const cors = require("cors")
+const cors = require("cors");
 const express = require("express");
 const fs = require("fs");
 
@@ -7,7 +7,7 @@ const app = express();
 const port = 8000;
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 const getData = () => {
   const data = fs.readFileSync("data.json");
@@ -117,5 +117,5 @@ app.delete("/member", (req, res) => {
 });
 
 app.listen(port, () => {
-  `Server listening on port ${port}!`;
+  console.log(`Server listening on port ${port}!`);
 });
